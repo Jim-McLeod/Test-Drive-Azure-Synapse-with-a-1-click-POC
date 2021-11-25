@@ -1670,6 +1670,46 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "SELECT TOP (100) [medallion]\n,[hack_license]\n,[vendor_id]\n,[pickup_datetime]\n,[payment_type]\n,[fare_amount]\n,[surcharge]\n,[mta_tax]\n,[tip_amount]\n,[tolls_amount]\n,[total_amount]\n FROM [dbo].[FaresData]",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "pocc5qitohds7ikopocws1p1",
+						"poolName": "pocc5qitohds7ikopocws1p1"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Serverless Pool Query')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "\n\n\nselect top 10 *\nfrom openrowset(\n    bulk 'https://pocc5qitohds7ikopoc.dfs.core.windows.net/public/fares-data.csv',\n    format = 'csv',\n    parser_version = '2.0',\n    firstrow = 1 ) as rows\n\n\nselect top 10 *\nfrom openrowset(\n    bulk 'https://pocc5qitohds7ikopoc.dfs.core.windows.net/public/fares-data.csv',\n    format = 'csv',\n    parser_version = '2.0',\n    firstrow = 2 ) \nwith (\n      [medallion]  varchar(50)\n    , [hack_license] varchar(50)\n    , [vendor_id] varchar(50)\n    , [pickup_datetime] varchar(50)\n    , [payment_type] varchar(50)\n    , [fare_amount]  decimal(9,4)\n    , [surcharge] int\n    , [mta_tax] decimal(9,4)\n    , [tip_amount] decimal(9,4)\n    , [tolls_amount] decimal(9,4)\n    , [total_amount] decimal(9,4)\n) as [r]\n\n\n\n\n\nselect top 10 *\nfrom openrowset(\n    bulk 'https://pandemicdatalake.blob.core.windows.net/public/curated/covid-19/ecdc_cases/latest/ecdc_cases.csv',\n    format = 'csv',\n    parser_version = '2.0',\n    firstrow = 2 ) as rows\n\n\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "default",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
 		}
 	]
 }
