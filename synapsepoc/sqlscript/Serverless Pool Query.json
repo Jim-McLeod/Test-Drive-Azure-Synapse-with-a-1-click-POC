@@ -1,0 +1,17 @@
+{
+	"name": "Serverless Pool Query",
+	"properties": {
+		"content": {
+			"query": "\n\n\nselect top 10 *\nfrom openrowset(\n    bulk 'https://pocc5qitohds7ikopoc.dfs.core.windows.net/public/fares-data.csv',\n    format = 'csv',\n    parser_version = '2.0',\n    firstrow = 1 ) as rows\n\n\nselect top 10 *\nfrom openrowset(\n    bulk 'https://pocc5qitohds7ikopoc.dfs.core.windows.net/public/fares-data.csv',\n    format = 'csv',\n    parser_version = '2.0',\n    firstrow = 2 ) \nwith (\n      [medallion]  varchar(50)\n    , [hack_license] varchar(50)\n    , [vendor_id] varchar(50)\n    , [pickup_datetime] varchar(50)\n    , [payment_type] varchar(50)\n    , [fare_amount]  decimal(9,4)\n    , [surcharge] int\n    , [mta_tax] decimal(9,4)\n    , [tip_amount] decimal(9,4)\n    , [tolls_amount] decimal(9,4)\n    , [total_amount] decimal(9,4)\n) as [r]\n\n\n\n\n\nselect top 10 *\nfrom openrowset(\n    bulk 'https://pandemicdatalake.blob.core.windows.net/public/curated/covid-19/ecdc_cases/latest/ecdc_cases.csv',\n    format = 'csv',\n    parser_version = '2.0',\n    firstrow = 2 ) as rows\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "default",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
