@@ -523,7 +523,7 @@
 					},
 					"KeyVaultName": {
 						"type": "string",
-						"defaultValue": "kvpocc5qitohds7ikopoc"
+						"defaultValue": "pocc5qitohds7ikopoc"
 					},
 					"datalakeAccountName": {
 						"type": "string",
