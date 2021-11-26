@@ -1,0 +1,17 @@
+{
+	"name": "Grant Permissions to Purview",
+	"properties": {
+		"content": {
+			"query": "-- Dedicated SQL Pool\nCREATE USER [purviewdts] FROM EXTERNAL PROVIDER\nGO\n\nEXEC sp_addrolemember 'db_datareader', [purviewdts]\nGO\n\n\n-- Serverless\nCREATE USER [purviewdts] FOR LOGIN [purviewdts];\nALTER ROLE db_datareader ADD MEMBER [purviewdts]; ",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

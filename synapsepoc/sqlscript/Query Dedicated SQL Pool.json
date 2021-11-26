@@ -1,5 +1,5 @@
 {
-	"name": "SQL script 1",
+	"name": "Query Dedicated SQL Pool",
 	"properties": {
 		"content": {
 			"query": "SELECT TOP (100) [medallion]\n,[hack_license]\n,[vendor_id]\n,[pickup_datetime]\n,[payment_type]\n,[fare_amount]\n,[surcharge]\n,[mta_tax]\n,[tip_amount]\n,[tolls_amount]\n,[total_amount]\n FROM [dbo].[FaresData]",
