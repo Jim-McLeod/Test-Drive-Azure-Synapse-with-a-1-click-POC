@@ -7,6 +7,9 @@
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "SqlServerTable"
+		"type": "SqlServerTable",
+		"typeProperties": {
+			"tableName": "[dbo].[FactInternetSales]"
+		}
 	}
 }

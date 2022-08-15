@@ -19,7 +19,6 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlSource",
-						"sqlReaderQuery": "SELECT * FROM [dbo].[FactInternetSales]",
 						"partitionOption": "None"
 					},
 					"sink": {
@@ -27,7 +26,6 @@
 						"writeBatchSize": 10000,
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
-						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
