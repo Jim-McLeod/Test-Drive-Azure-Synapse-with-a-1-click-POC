@@ -5,6 +5,12 @@
 		"workspaceName": {
 			"value": "pocc5qitohds7ikopocws1"
 		},
+		"AdventureWorksDW2019_Serverless_connectionString": {
+			"value": ""
+		},
+		"SQL2019JimLaptop_connectionString": {
+			"value": ""
+		},
 		"TripFaresSynapseAnalyticsLinkedService_connectionString": {
 			"value": ""
 		},
