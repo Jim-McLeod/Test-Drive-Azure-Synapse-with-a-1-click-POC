@@ -1,0 +1,33 @@
+{
+	"name": "NOPSEMALiveMetaDataDriven_hh1_DestinationDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "NOPSEMALiveSqlDB",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"cw_schema": {
+				"type": "String"
+			},
+			"cw_table": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "NOPSEMALiveMetaDataDriven_hh1_20220817"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().cw_schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().cw_table",
+				"type": "Expression"
+			}
+		}
+	}
+}
