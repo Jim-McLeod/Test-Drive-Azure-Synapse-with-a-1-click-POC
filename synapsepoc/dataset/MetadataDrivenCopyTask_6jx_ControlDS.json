@@ -1,0 +1,19 @@
+{
+	"name": "MetadataDrivenCopyTask_6jx_ControlDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AdventureWorksDW2019_Serverless",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MetadataDrivenCopyTask_6jx_20220817"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "MainControlTable_6jx"
+		}
+	}
+}
