@@ -2,12 +2,12 @@
 	"name": "SQL script 1",
 	"properties": {
 		"content": {
-			"query": "\n\n\nselect top 100 * from fares_lake\n",
+			"query": "\nselect top 100 * from fares_lake\n\n\n\n\nselect * from INFORMATION_SCHEMA.TABLES\n\nselect top 100 * from fares\n\nCREATE USER [PurviewAccountName] FROM EXTERNAL PROVIDER\nGO\n\nCREATE LOGIN [PurviewAccountName] WITH PASSWORD = '14LunarHorses!'\nGO\n\nEXEC sp_addrolemember 'db_datareader', [PurviewAccountName]\nGO\n\nCREATE USER [PurviewAccountName] FOR LOGIN [PurviewAccountName];\nALTER ROLE db_datareader ADD MEMBER [PurviewAccountName]; \nGRANT REFERENCES ON DATABASE SCOPED CREDENTIAL::[scoped_credential] TO [PurviewAccountName];\n\nCREATE DATABASE SCOPE CREDENTIAL\n\nselect * from sys.credentials\nselect * from sys.database_credentials\n\n\n\n\nselect * from sys.server_principals\nselect * from sys.database_principals\n\n",
 			"metadata": {
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "ServerlessDatabase",
+				"databaseName": "master",
 				"poolName": "Built-in"
 			},
 			"resultLimit": 5000
