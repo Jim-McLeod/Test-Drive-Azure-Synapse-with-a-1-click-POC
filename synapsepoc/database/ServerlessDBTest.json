@@ -1,0 +1,22 @@
+{
+	"name": "ServerlessDBTest",
+	"properties": {
+		"Name": "ServerlessDBTest",
+		"EntityType": "DATABASE",
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"Properties": {
+			"IsSyMSCDMDatabase": true
+		},
+		"Source": {
+			"Provider": "ADLS",
+			"Location": "abfss://dlspocpocfs1@pocc5qitohds7ikopoc.dfs.core.windows.net/ServerlessDBTest",
+			"Properties": {
+				"FormatType": "csv",
+				"LinkedServiceName": "pocc5qitohds7ikopocws1-WorkspaceDefaultStorage"
+			}
+		}
+	},
+	"type": "DATABASE"
+}
