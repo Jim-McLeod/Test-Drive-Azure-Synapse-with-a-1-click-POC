@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "71a6ccc8-2f6d-40f4-9ac7-d08223e22e39"
+				"spark.autotune.trackingId": "f1aeccfb-31b1-41bd-8a1b-7a70ec99bd1a"
 			}
 		},
 		"metadata": {
@@ -53,13 +53,13 @@
 				"source": [
 					"import com.github.saurfang.sas.spark._\r\n",
 					"\r\n",
-					"// DataFrameReader\r\n",
 					"val df = spark.read.sas(\"abfss://public@pocc5qitohds7ikopoc.dfs.core.windows.net/cars.sas7bdat\")\r\n",
-					"df.write.format(\"csv\").option(\"header\", \"true\").save(\"abfss://public@pocc5qitohds7ikopoc.dfs.core.windows.net/newcarsV2.csv\")\r\n",
+					"df.write.format(\"csv\").option(\"header\", \"true\").save(\"abfss://public@pocc5qitohds7ikopoc.dfs.core.windows.net/newcarsV5.csv\")\r\n",
+					"df.write.format(\"parquet\").option(\"header\", \"true\").save(\"abfss://public@pocc5qitohds7ikopoc.dfs.core.windows.net/newcarsV5.parquet\")\r\n",
 					"\r\n",
 					""
 				],
-				"execution_count": 1
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
@@ -109,7 +109,7 @@
 					"    for row in reader:\r\n",
 					"        print(row)"
 				],
-				"execution_count": 6
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
