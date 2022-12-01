@@ -8,6 +8,9 @@
 		"AdventureWorksDW2019_Serverless_connectionString": {
 			"value": ""
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
 		"NOPSEMALiveSqlDB_connectionString": {
 			"value": ""
 		},
