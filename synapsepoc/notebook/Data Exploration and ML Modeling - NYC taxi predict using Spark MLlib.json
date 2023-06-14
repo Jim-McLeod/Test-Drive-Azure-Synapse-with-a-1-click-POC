@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6fc1aa96-d72d-4d04-b00b-82c8ea4e0efc"
+				"spark.autotune.trackingId": "e262c2b5-2b2c-4ea2-b0b9-fc7209f231a0"
 			}
 		},
 		"metadata": {
@@ -31,10 +31,10 @@
 				"name": "python"
 			},
 			"a365ComputeOptions": {
-				"id": "/subscriptions/cd38188b-067c-4da6-b3b5-a00f0ee90934/resourceGroups/rg-synapse/providers/Microsoft.Synapse/workspaces/pocc5qitohds7ikopocws1/bigDataPools/ws1sparkpool1",
+				"id": "/subscriptions/97273c76-1d84-4e9c-84ff-768b24d49889/resourceGroups/rg-synapse-1-click/providers/Microsoft.Synapse/workspaces/taeh6zx4kltwj35cpocws1/bigDataPools/ws1sparkpool1",
 				"name": "ws1sparkpool1",
 				"type": "Spark",
-				"endpoint": "https://pocc5qitohds7ikopocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
+				"endpoint": "https://taeh6zx4kltwj35cpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
 				"auth": {
 					"type": "AAD",
 					"authResource": "https://dev.azuresynapse.net"
@@ -293,7 +293,7 @@
 					"metrics = BinaryClassificationMetrics(predictionAndLabels)\n",
 					"print(\"Area under ROC = %s\" % metrics.areaUnderROC)"
 				],
-				"execution_count": 11
+				"execution_count": 9
 			},
 			{
 				"cell_type": "markdown",
@@ -317,7 +317,7 @@
 					"plt.ylabel('True Positive Rate')\n",
 					"plt.show()"
 				],
-				"execution_count": 12
+				"execution_count": 10
 			}
 		]
 	}
