@@ -4,45 +4,45 @@
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
-			"referenceName": "Spark32Python38",
+			"referenceName": "ws1sparkpool1",
 			"type": "BigDataPoolReference"
 		},
 		"sessionProperties": {
-			"driverMemory": "56g",
-			"driverCores": 8,
-			"executorMemory": "56g",
-			"executorCores": 8,
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
 			"numExecutors": 2,
 			"conf": {
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f1aeccfb-31b1-41bd-8a1b-7a70ec99bd1a"
+				"spark.autotune.trackingId": "5f8aa4f1-5a1f-4b61-8dbe-b9d4154af98e"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_pyspark",
-				"display_name": "Synapse PySpark"
+				"name": "synapse_spark",
+				"display_name": "scala"
 			},
 			"language_info": {
 				"name": "scala"
 			},
 			"a365ComputeOptions": {
-				"id": "/subscriptions/cd38188b-067c-4da6-b3b5-a00f0ee90934/resourceGroups/rg-synapse/providers/Microsoft.Synapse/workspaces/pocc5qitohds7ikopocws1/bigDataPools/Spark32Python38",
-				"name": "Spark32Python38",
+				"id": "/subscriptions/97273c76-1d84-4e9c-84ff-768b24d49889/resourceGroups/rg-synapse-1-click/providers/Microsoft.Synapse/workspaces/taeh6zx4kltwj35cpocws1/bigDataPools/ws1sparkpool1",
+				"name": "ws1sparkpool1",
 				"type": "Spark",
-				"endpoint": "https://pocc5qitohds7ikopocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Spark32Python38",
+				"endpoint": "https://taeh6zx4kltwj35cpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
 				"auth": {
 					"type": "AAD",
 					"authResource": "https://dev.azuresynapse.net"
 				},
-				"sparkVersion": "3.2",
-				"nodeCount": 3,
-				"cores": 8,
-				"memory": 56,
+				"sparkVersion": "2.4",
+				"nodeCount": 5,
+				"cores": 4,
+				"memory": 28,
 				"automaticScaleJobs": false
 			},
 			"sessionKeepAliveTimeout": 30
