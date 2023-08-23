@@ -38,6 +38,15 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('workspaceName'), '/Sparkv33Small')]",
+			"type": "Microsoft.Synapse/workspaces/bigDataPools",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/TripFaresDataPipeline')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -1514,7 +1523,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "016c23ef-0289-49b4-a1be-ccbcf92f566f"
+						"spark.autotune.trackingId": "e262c2b5-2b2c-4ea2-b0b9-fc7209f231a0"
 					}
 				},
 				"metadata": {
@@ -1539,15 +1548,13 @@
 						"sparkVersion": "2.4",
 						"nodeCount": 5,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"# Predict NYC Taxi Tips using Spark ML and Azure Open Datasets\n",
 							"\n",
@@ -1560,7 +1567,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"import matplotlib.pyplot as plt\n",
 							"\n",
@@ -1583,7 +1589,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Ingest Data¶ \n",
 							"\n",
@@ -1592,7 +1597,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# Import NYC yellow cab data from Azure Open Datasets\n",
 							"from azureml.opendatasets import NycTlcYellow\n",
@@ -1611,7 +1615,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"#To make development easier, faster and less expensive downsample for now\n",
 							"sampled_taxi_df = nyc_tlc_df.sample(True, 0.001, seed=1234)"
@@ -1621,7 +1624,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Exploratory Data Analysis\n",
 							"\n",
@@ -1630,7 +1632,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"#The charting package needs a Pandas dataframe or numpy array do the conversion\n",
 							"sampled_taxi_pd_df = sampled_taxi_df.toPandas()\n",
@@ -1665,7 +1666,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Data Prep and Featurization\n",
 							"\n",
@@ -1677,7 +1677,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"taxi_df = sampled_taxi_df.select('totalAmount', 'fareAmount', 'tipAmount', 'paymentType', 'rateCodeId', 'passengerCount'\\\n",
 							"                                , 'tripDistance', 'tpepPickupDateTime', 'tpepDropoffDateTime'\\\n",
@@ -1700,7 +1699,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Data Prep and Featurization Part 2\n",
 							"\n",
@@ -1712,7 +1710,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"taxi_featurised_df = taxi_df.select('totalAmount', 'fareAmount', 'tipAmount', 'paymentType', 'passengerCount'\\\n",
 							"                                                , 'tripDistance', 'weekdayString', 'pickupHour','tripTimeSecs','tipped'\\\n",
@@ -1729,7 +1726,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Encoding\n",
 							"\n",
@@ -1743,7 +1739,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# The sample uses an algorithm that only works with numeric features convert them so they can be consumed\n",
 							"sI1 = StringIndexer(inputCol=\"trafficTimeBins\", outputCol=\"trafficTimeBinsIndex\"); \n",
@@ -1759,7 +1754,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Generation of Testing and Training Data Sets\n",
 							"Simple split, 70% for training and 30% for testing the model. Playing with this ratio may result in different models.\n",
@@ -1768,7 +1762,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# Decide on the split between training and testing data from the dataframe \n",
 							"trainingFraction = 0.7\n",
@@ -1783,7 +1776,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Train the Model\n",
 							"\n",
@@ -1792,7 +1784,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"## Create a new LR object for the model\n",
 							"logReg = LogisticRegression(maxIter=10, regParam=0.3, labelCol = 'tipped')\n",
@@ -1816,11 +1807,10 @@
 							"print(\"Area under ROC = %s\" % metrics.areaUnderROC)"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 9
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Evaluate and Visualize\n",
 							"\n",
@@ -1830,7 +1820,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"## Plot the ROC curve, no need for pandas as this uses the modelSummary object\n",
 							"modelSummary = lrModel.stages[-1].summary\n",
@@ -1843,7 +1832,419 @@
 							"plt.show()"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 10
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/R Demo')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "Sparkv33Small",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "208124fb-7007-4f45-97f4-317047f20d2d"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_sparkr",
+						"display_name": "r"
+					},
+					"language_info": {
+						"name": "r"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/97273c76-1d84-4e9c-84ff-768b24d49889/resourceGroups/rg-synapse-1-click/providers/Microsoft.Synapse/workspaces/taeh6zx4kltwj35cpocws1/bigDataPools/Sparkv33Small",
+						"name": "Sparkv33Small",
+						"type": "Spark",
+						"endpoint": "https://taeh6zx4kltwj35cpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Sparkv33Small",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.3",
+						"nodeCount": 10,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"library(SparkR)\r\n",
+							"library(httr)\r\n",
+							"library(jsonlite)\r\n",
+							"library(plotly)\r\n",
+							"\r\n",
+							"counties <- fromJSON(content(GET('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'), \"text\"))\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 14
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"\r\n",
+							"df <- read.df(\"abfss://public@taeh6zx4kltwj35cpoc.dfs.core.windows.net/fips-unemp-16.csv\", source = \"csv\", header = \"true\", inferSchema = \"true\")\r\n",
+							"#df$fips <- as.character(df$fips)"
+						],
+						"outputs": [],
+						"execution_count": 19
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"library(ggplot2)\r\n",
+							"data(mpg, package=\"ggplot2\") \r\n",
+							"theme_set(theme_bw()) \r\n",
+							"\r\n",
+							"g <- ggplot(mpg, aes(cty, hwy))\r\n",
+							"\r\n",
+							"# Scatterplot\r\n",
+							"g + geom_point() + \r\n",
+							"  geom_smooth(method=\"lm\", se=F) +\r\n",
+							"  labs(subtitle=\"mpg: city vs highway mileage\", \r\n",
+							"       y=\"hwy\", \r\n",
+							"       x=\"cty\", \r\n",
+							"       title=\"Scatterplot with overlapping points\", \r\n",
+							"       caption=\"Source: midwest\")"
+						],
+						"outputs": [],
+						"execution_count": 21
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"install.packages(\"highcharter\")"
+						],
+						"outputs": [],
+						"execution_count": 25
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"library(magrittr)\r\n",
+							"library(highcharter)\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 26
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"hchart(mtcars, \"scatter\", hcaes(wt, mpg, z = drat, color = hp)) %>%\r\n",
+							"  hc_size(height = 400) %>%\r\n",
+							"  hc_title(text = \"Scatter chart with size and color\")"
+						],
+						"outputs": [],
+						"execution_count": 33
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"library(plotly)\r\n",
+							"library(rjson)\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 43
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"url <- 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'\r\n",
+							"counties <- rjson::fromJSON(file=url)"
+						],
+						"outputs": [],
+						"execution_count": 44
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"url2<- \"https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv\"\r\n",
+							"df <- read.csv(url2, colClasses=c(fips=\"character\"))\r\n",
+							"\r\n",
+							"g <- list(\r\n",
+							"  scope = 'usa',\r\n",
+							"  projection = list(type = 'albers usa'),\r\n",
+							"  showlakes = TRUE,\r\n",
+							"  lakecolor = toRGB('white')\r\n",
+							")\r\n",
+							"fig <- plot_ly(height=500)\r\n",
+							"fig <- fig %>% add_trace(\r\n",
+							"    type=\"choropleth\",\r\n",
+							"    geojson=counties,\r\n",
+							"    locations=df$fips,\r\n",
+							"    z=df$unemp,\r\n",
+							"    colorscale=\"Viridis\",\r\n",
+							"    zmin=0,\r\n",
+							"    zmax=12,\r\n",
+							"    marker=list(line=list(\r\n",
+							"      width=0)\r\n",
+							"    )\r\n",
+							"  )\r\n",
+							"fig <- fig %>% colorbar(title = \"Unemployment Rate (%)\")\r\n",
+							"fig <- fig %>% layout(\r\n",
+							"    title = \"2016 US Unemployment by County\"\r\n",
+							")\r\n",
+							"\r\n",
+							"fig <- fig %>% layout(\r\n",
+							"    geo = g\r\n",
+							"  )\r\n",
+							"\r\n",
+							"fig"
+						],
+						"outputs": [],
+						"execution_count": 53
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"library(plotly)\r\n",
+							"df <- read.csv(\"https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv\")\r\n",
+							"df$hover <- with(df, paste(state, '<br>', \"Beef\", beef, \"Dairy\", dairy, \"<br>\",\r\n",
+							"                           \"Fruits\", total.fruits, \"Veggies\", total.veggies,\r\n",
+							"                           \"<br>\", \"Wheat\", wheat, \"Corn\", corn))\r\n",
+							"# give state boundaries a white border\r\n",
+							"l <- list(color = toRGB(\"white\"), width = 2)\r\n",
+							"# specify some map projection/options\r\n",
+							"g <- list(\r\n",
+							"  scope = 'usa',\r\n",
+							"  projection = list(type = 'albers usa'),\r\n",
+							"  showlakes = TRUE,\r\n",
+							"  lakecolor = toRGB('white')\r\n",
+							")\r\n",
+							"\r\n",
+							"fig <- plot_geo(df, locationmode = 'USA-states')\r\n",
+							"fig <- fig %>% add_trace(\r\n",
+							"    z = ~total.exports, text = ~hover, locations = ~code,\r\n",
+							"    color = ~total.exports, colors = 'Purples'\r\n",
+							"  )\r\n",
+							"fig <- fig %>% colorbar(title = \"Millions USD\")\r\n",
+							"fig <- fig %>% layout(\r\n",
+							"    title = '2011 US Agriculture Exports by State<br>(Hover for breakdown)',\r\n",
+							"    geo = g\r\n",
+							"  )\r\n",
+							"\r\n",
+							"fig"
+						],
+						"outputs": [],
+						"execution_count": 46
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"library(plotly)\r\n",
+							"library(rjson)\r\n",
+							"\r\n",
+							"df <- fromJSON(file=\"https://gist.githubusercontent.com/davenquinn/988167471993bc2ece29/raw/f38d9cb3dd86e315e237fde5d65e185c39c931c2/data.json\") \r\n",
+							"\r\n",
+							"colors = c('#8dd3c7','#ffffb3','#bebada',\r\n",
+							"          '#fb8072','#80b1d3','#fdb462',\r\n",
+							"          '#b3de69','#fccde5','#d9d9d9',\r\n",
+							"          '#bc80bd','#ccebc5','#ffed6f');\r\n",
+							"\r\n",
+							"fig <- plot_ly(height=400)\r\n",
+							"\r\n",
+							"for (i in 1:length(df)) {\r\n",
+							"  l = c()\r\n",
+							"  m = c()\r\n",
+							"  n = c()\r\n",
+							"\r\n",
+							"  for (j in 1:length(df[[i]])) {\r\n",
+							"    l[[j]] <- df[[i]][[j]]$clay\r\n",
+							"    m[[j]] <- df[[i]][[j]]$sand\r\n",
+							"    n[[j]] <- df[[i]][[j]]$silt\r\n",
+							"  }\r\n",
+							"\r\n",
+							" fig <- add_trace(\r\n",
+							"    fig,\r\n",
+							"    type = 'scatterternary',\r\n",
+							"    a = l,\r\n",
+							"    b = m,\r\n",
+							"    c = n,\r\n",
+							"    name = names(df[i]),\r\n",
+							"    mode = 'lines',\r\n",
+							"    line = list(\r\n",
+							"      color='#444'\r\n",
+							"    ),\r\n",
+							"    fill = 'toself',\r\n",
+							"    fillcolor = colors[i],\r\n",
+							"    showlegend = F\r\n",
+							"    )\r\n",
+							"}\r\n",
+							"\r\n",
+							"fig <- layout(\r\n",
+							"  fig,\r\n",
+							"  title = \"Simple Ternary Contour Plot in R\",\r\n",
+							"  ternary = list(\r\n",
+							"    sum = 100,\r\n",
+							"    aaxis = list(\r\n",
+							"      title = \"clay\",\r\n",
+							"      ticksuffix = \"%\",\r\n",
+							"      min = 0.01,\r\n",
+							"      linewidth = 2,\r\n",
+							"      ticks = \"outside\"\r\n",
+							"    ),\r\n",
+							"    baxis = list(\r\n",
+							"      title = \"sand\",\r\n",
+							"      ticksuffix = \"%\",\r\n",
+							"      min = 0.01,\r\n",
+							"      linewidth = 2,\r\n",
+							"      ticks = \"outside\"\r\n",
+							"    ),\r\n",
+							"    caxis = list(\r\n",
+							"      title = \"silt\",\r\n",
+							"      ticksuffix = \"%\",\r\n",
+							"      min = 0.01,\r\n",
+							"      linewidth = 2,\r\n",
+							"      ticks = \"outside\"\r\n",
+							"    )\r\n",
+							"  )\r\n",
+							")\r\n",
+							"\r\n",
+							"fig"
+						],
+						"outputs": [],
+						"execution_count": 54
 					}
 				]
 			},
@@ -1870,7 +2271,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "99e4272c-4c20-4643-a7ea-59138ef995dd"
+						"spark.autotune.trackingId": "5f8aa4f1-5a1f-4b61-8dbe-b9d4154af98e"
 					}
 				},
 				"metadata": {
@@ -1895,15 +2296,13 @@
 						"sparkVersion": "2.4",
 						"nodeCount": 5,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"import com.github.saurfang.sas.spark._\r\n",
 							"\r\n",
@@ -2234,6 +2633,31 @@
 				"sparkVersion": "2.4",
 				"isComputeIsolationEnabled": false,
 				"sessionLevelPackagesEnabled": false,
+				"annotations": []
+			},
+			"dependsOn": [],
+			"location": "australiaeast"
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Sparkv33Small')]",
+			"type": "Microsoft.Synapse/workspaces/bigDataPools",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"autoPause": {
+					"enabled": true,
+					"delayInMinutes": 15
+				},
+				"autoScale": {
+					"enabled": true,
+					"maxNodeCount": 10,
+					"minNodeCount": 3
+				},
+				"nodeCount": 10,
+				"nodeSize": "Small",
+				"nodeSizeFamily": "MemoryOptimized",
+				"sparkVersion": "3.3",
+				"isComputeIsolationEnabled": false,
+				"sessionLevelPackagesEnabled": true,
 				"annotations": []
 			},
 			"dependsOn": [],
