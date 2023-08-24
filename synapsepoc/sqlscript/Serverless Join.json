@@ -1,0 +1,17 @@
+{
+	"name": "Serverless Join",
+	"properties": {
+		"content": {
+			"query": "SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://taeh6zx4kltwj35cpoc.dfs.core.windows.net/public/fares-data.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = true,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n\n\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://taeh6zx4kltwj35cpoc.dfs.core.windows.net/public/trip-data.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = true,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n\n\n\nWITH trips AS (\n    SELECT *\n    FROM OPENROWSET(\n        BULK 'https://taeh6zx4kltwj35cpoc.dfs.core.windows.net/public/trip-data.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = true,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n),\n fares AS (\n    SELECT * \n    FROM OPENROWSET(\n        BULK 'https://taeh6zx4kltwj35cpoc.dfs.core.windows.net/public/fares-data.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = true,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n )\nSELECT fares.vendor_id, SUM(fares.fare_amount) AS TotalAmount, SUM(trips.passenger_count) AS TotalPassengers\nFROM fares\nJOIN trips ON fares.medallion = trips.medallion AND fares.pickup_datetime = trips.pickup_datetime\nGROUP BY fares.vendor_id\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
