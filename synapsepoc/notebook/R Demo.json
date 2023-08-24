@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8c76ef38-8a16-4e0f-9ff0-b09c860389b6"
+				"spark.autotune.trackingId": "89500f7a-b8bb-44ee-820b-f4b2198c4537"
 			}
 		},
 		"metadata": {
@@ -50,39 +50,6 @@
 		"cells": [
 			{
 				"cell_type": "code",
-				"source": [
-					"library(SparkR)\r\n",
-					"library(httr)\r\n",
-					"library(jsonlite)\r\n",
-					"library(plotly)\r\n",
-					"\r\n",
-					"counties <- fromJSON(content(GET('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'), \"text\"))\r\n",
-					""
-				],
-				"execution_count": 14
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"\r\n",
-					"df <- read.df(\"abfss://public@taeh6zx4kltwj35cpoc.dfs.core.windows.net/fips-unemp-16.csv\", source = \"csv\", header = \"true\", inferSchema = \"true\")\r\n",
-					"#df$fips <- as.character(df$fips)"
-				],
-				"execution_count": 19
-			},
-			{
-				"cell_type": "code",
 				"metadata": {
 					"jupyter": {
 						"source_hidden": false,
@@ -110,7 +77,7 @@
 					"       title=\"Scatterplot with overlapping points\", \r\n",
 					"       caption=\"Source: midwest\")"
 				],
-				"execution_count": 21
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -128,7 +95,7 @@
 				"source": [
 					"install.packages(\"highcharter\")"
 				],
-				"execution_count": 25
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -148,7 +115,7 @@
 					"library(highcharter)\r\n",
 					""
 				],
-				"execution_count": 26
+				"execution_count": 3
 			},
 			{
 				"cell_type": "code",
@@ -169,7 +136,7 @@
 					"  hc_size(height = 400) %>%\r\n",
 					"  hc_title(text = \"Scatter chart with size and color\")"
 				],
-				"execution_count": 33
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
@@ -189,7 +156,7 @@
 					"library(rjson)\r\n",
 					""
 				],
-				"execution_count": 43
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -208,7 +175,7 @@
 					"url <- 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'\r\n",
 					"counties <- rjson::fromJSON(file=url)"
 				],
-				"execution_count": 44
+				"execution_count": 6
 			},
 			{
 				"cell_type": "code",
@@ -258,7 +225,7 @@
 					"\r\n",
 					"fig"
 				],
-				"execution_count": 53
+				"execution_count": 7
 			},
 			{
 				"cell_type": "code",
@@ -302,7 +269,7 @@
 					"\r\n",
 					"fig"
 				],
-				"execution_count": 46
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -390,7 +357,7 @@
 					"\r\n",
 					"fig"
 				],
-				"execution_count": 54
+				"execution_count": 8
 			}
 		]
 	}
