@@ -1483,6 +1483,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Serverless Join')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://taeh6zx4kltwj35cpoc.dfs.core.windows.net/public/fares-data.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = true,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n\n\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://taeh6zx4kltwj35cpoc.dfs.core.windows.net/public/trip-data.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = true,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n\n\n\nWITH trips AS (\n    SELECT *\n    FROM OPENROWSET(\n        BULK 'https://taeh6zx4kltwj35cpoc.dfs.core.windows.net/public/trip-data.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = true,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n),\n fares AS (\n    SELECT * \n    FROM OPENROWSET(\n        BULK 'https://taeh6zx4kltwj35cpoc.dfs.core.windows.net/public/fares-data.csv',\n        FORMAT = 'CSV',\n        HEADER_ROW = true,\n        PARSER_VERSION = '2.0'\n    ) AS [result]\n )\nSELECT fares.vendor_id, SUM(fares.fare_amount) AS TotalAmount, SUM(trips.passenger_count) AS TotalPassengers\nFROM fares\nJOIN trips ON fares.medallion = trips.medallion AND fares.pickup_datetime = trips.pickup_datetime\nGROUP BY fares.vendor_id\n\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Serverless Pool Query')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
@@ -1859,15 +1879,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "208124fb-7007-4f45-97f4-317047f20d2d"
+						"spark.autotune.trackingId": "8c76ef38-8a16-4e0f-9ff0-b09c860389b6"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparkr",
-						"display_name": "r"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "r"
@@ -1884,15 +1904,13 @@
 						"sparkVersion": "3.3",
 						"nodeCount": 10,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"library(SparkR)\r\n",
 							"library(httr)\r\n",
